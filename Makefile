@@ -25,10 +25,34 @@ build: create_venv
 	    docker-compose build \
 	)
 
-# Run the Docker container
-run: create_venv
+# Run migrations
+makemigrations: create_venv
+	@echo "Running 'makemigrations'..."
+	@( \
+	    . env/bin/activate; \
+	    docker-compose run web python manage.py makemigrations \
+	)
+
+# Apply migrations
+migrate: create_venv
+	@echo "Running 'migrate'..."
+	@( \
+	    . env/bin/activate; \
+	    docker-compose run web python manage.py migrate \
+	)
+
+# Run tests
+test: create_venv
+	@echo "Running tests..."
+	@( \
+	    . env/bin/activate; \
+	    docker-compose run web python manage.py test \
+	)
+
+# Build, migrate, run tests, and then run the Docker container
+run: create_venv build makemigrations migrate test
 	@echo "Running the Docker container..."
 	@( \
 	    . env/bin/activate; \
-	    docker-compose up \
+	    docker-compose up -d \
 	)
