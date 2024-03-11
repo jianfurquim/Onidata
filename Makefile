@@ -10,7 +10,6 @@ help:
 clean:
 	@echo "Cleaning up temporary files and Docker container..."
 	@docker-compose down --rmi all -v
-	@rm -rf env
 
 # Create virtual environment if it does not exist
 create_venv:
