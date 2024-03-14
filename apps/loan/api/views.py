@@ -19,6 +19,9 @@ class LoanViewSet(viewsets.ModelViewSet):
     def generate_payments(self, request, pk=None):
         loan = self.get_object()
 
+        if not loan:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
         try:
             with transaction.atomic():
                 for i in range(1, loan.amount_of_payments + 1):
@@ -34,6 +37,7 @@ class LoanViewSet(viewsets.ModelViewSet):
                         total_value=total_value,
                         date=loan.request_date,
                         due_date=due_date,
+                        effective_date=None,
                         installment_number=i,
                         is_paid=False,
                     )

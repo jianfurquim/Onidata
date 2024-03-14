@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.loan.models import Loan
 from utils.hash import hash_generator
+from datetime import date
 
 
 class Payment(models.Model):
@@ -15,11 +16,17 @@ class Payment(models.Model):
     )
     date = models.DateField(_("Payment Date"))
     due_date = models.DateField(_("Due Date"))
+    effective_date = models.DateField(_("Effective Date"), blank=True, null=True)
     installment_number = models.PositiveIntegerField(_("Installment Number"), default=1)
     is_paid = models.BooleanField(_("Is Paid"), default=False)
 
     def __str__(self):
         return f"Payment for Loan {self.loan.slug} on {self.payment_date}"
+
+    def make_payment(self):
+        self.is_paid = True
+        self.effective_date = date.today()
+        self.save()
 
     def save(self, *args, **kwargs):
         self.slug = self.slug or hash_generator()
