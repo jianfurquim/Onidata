@@ -2,8 +2,8 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
-from apps.users.models import User
-from apps.users.serializers import UserSerializer
+from apps.user.models import User
+from apps.user.serializers import UserSerializer
 
 
 class UserTest(TestCase):

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth import authenticate
 
-from apps.users.models import User
+from apps.user.models import User
 
 
 class UserTest(TestCase):
