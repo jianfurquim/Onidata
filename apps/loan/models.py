@@ -1,12 +1,13 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import User
 
 from utils.hash import hash_generator
 
 
 class Loan(models.Model):
     slug = models.SlugField(max_length=100, blank=True, unique=True, null=True)
-    user = models.ForeignKey("user.User", on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
     is_active = models.BooleanField(_("Active"), default=True)
     value = models.DecimalField(_("Nominal Value"), max_digits=13, decimal_places=3)
     interest_rate = models.DecimalField(
