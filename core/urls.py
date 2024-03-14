@@ -19,7 +19,6 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from django.views.generic import RedirectView
 
 from apps.user.api.views import UserViewSet
 from apps.loan.api.views import LoanViewSet
@@ -37,6 +36,4 @@ urlpatterns = [
     path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("admin/", admin.site.urls),
-    path("", RedirectView.as_view(url="/home/")),
-    path("", include("apps.frontend.urls")),
 ]

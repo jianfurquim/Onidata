@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     "apps.user",
     "apps.loan",
     "apps.payment",
-    "apps.frontend",
 ]
 
 REST_FRAMEWORK = {
