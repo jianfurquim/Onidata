@@ -1,3 +1,26 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
-# Create your models here.
+from apps.loan.models import Loan
+from utils.hash import hash_generator
+
+
+class Payment(models.Model):
+    slug = models.SlugField(max_length=100, blank=True, unique=True, null=True)
+    loan = models.ForeignKey(Loan, on_delete=models.CASCADE, related_name="payments")
+    value = models.DecimalField(_("Payment Value"), max_digits=13, decimal_places=3)
+    total_value = models.DecimalField(_("Total Value"), max_digits=13, decimal_places=3)
+    interest_value = models.DecimalField(
+        _("Interest Value"), max_digits=13, decimal_places=3
+    )
+    date = models.DateField(_("Payment Date"))
+    due_date = models.DateField(_("Due Date"))
+    installment_number = models.PositiveIntegerField(_("Installment Number"), default=1)
+    is_paid = models.BooleanField(_("Is Paid"), default=False)
+
+    def __str__(self):
+        return f"Payment for Loan {self.loan.slug} on {self.payment_date}"
+
+    def save(self, *args, **kwargs):
+        self.slug = self.slug or hash_generator()
+        super(Payment, self).save(*args, **kwargs)
