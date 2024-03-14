@@ -45,15 +45,27 @@ class LoanModelTestCase(TestCase):
         self.assertIsNotNone(loan.slug)
 
     def test_loan_blank_fields(self):
-        loan = Loan.objects.create(user=self.user, value=3000)
+        loan = Loan.objects.create(
+            user=self.user,
+            value=3000,
+            interest_rate=0.3,
+        )
         self.assertTrue(loan.is_active)
         self.assertIsNone(loan.ip_address)
         self.assertIsNone(loan.bank)
         self.assertIsNone(loan.client)
 
     def test_loan_unique_slug(self):
-        loan1 = Loan.objects.create(user=self.user, value=4000)
-        loan2 = Loan.objects.create(user=self.user, value=5000)
+        loan1 = Loan.objects.create(
+            user=self.user,
+            value=4000,
+            interest_rate=0.3,
+        )
+        loan2 = Loan.objects.create(
+            user=self.user,
+            value=5000,
+            interest_rate=0.3,
+        )
         self.assertNotEqual(loan1.slug, loan2.slug)
 
     def test_loan_user_relationship(self):
