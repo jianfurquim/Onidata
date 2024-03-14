@@ -30,7 +30,6 @@ DEBUG = config("DEBUG", cast=bool, default=False)
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = "user.User"
 # Application definition
 
 INSTALLED_APPS = [
