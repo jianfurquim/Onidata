@@ -22,10 +22,14 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.views.generic import RedirectView
 
 from apps.user.api.views import UserViewSet
+from apps.loan.api.views import LoanViewSet
+from apps.payment.api.views import PaymentViewSet
 from utils.favicon import empty_favicon
 
 router = DefaultRouter()
 router.register(r"user", UserViewSet)
+router.register(r"loan", LoanViewSet)
+router.register(r"payment", PaymentViewSet)
 
 urlpatterns = [
     path("favicon.ico", empty_favicon),
