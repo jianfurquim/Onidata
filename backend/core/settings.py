@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "rest_framework",
+    "corsheaders",
     "apps.user",
     "apps.loan",
     "apps.payment",
@@ -61,6 +62,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -148,3 +150,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 JWT_AUTH = {
     "JWT_EXPIRATION_DELTA": timedelta(hours=1),
 }
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3003',
+]
