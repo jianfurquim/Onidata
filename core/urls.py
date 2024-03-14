@@ -20,11 +20,13 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from apps.user.api.views import UserViewSet
+from utils.favicon import empty_favicon
 
 router = DefaultRouter()
 router.register(r"user", UserViewSet)
 
 urlpatterns = [
+    path("favicon.ico", empty_favicon),
     path("api/", include(router.urls)),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     path("admin/", admin.site.urls),
