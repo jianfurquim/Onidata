@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
@@ -10,5 +11,7 @@
         <input type="password" id="password" name="password" placeholder="Password">
         <button type="submit">Login</button>
     </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{% static 'js/login.js' %}"></script>
 </body>
 </html>
