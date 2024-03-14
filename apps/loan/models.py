@@ -23,3 +23,4 @@ class Loan(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = self.slug or hash_generator()
+        super(Loan, self).save(*args, **kwargs)
