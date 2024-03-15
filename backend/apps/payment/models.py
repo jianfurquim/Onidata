@@ -21,11 +21,28 @@ class Payment(models.Model):
     is_paid = models.BooleanField(_("Is Paid"), default=False)
 
     def __str__(self):
-        return f"Payment for Loan {self.loan.slug} on {self.payment_date}"
+        return f"Payment for Loan {self.loan.slug} on {self.due_date}"
 
     def make_payment(self):
         self.is_paid = True
         self.effective_date = date.today()
+
+        if self.effective_date > self.due_date:
+            days_difference = abs((self.due_date - self.effective_date).days)
+            interest_rate_per_day = self.loan.interest_rate / 100 / 365
+            interest_factor = pow(1 + interest_rate_per_day, days_difference)
+            self.total_value = self.total_value * interest_factor
+
+        self.save()
+
+    def cancel_make_payment(self):
+        self.is_paid = False
+        self.effective_date = None
+
+        value = self.loan.value / self.loan.amount_of_payments
+        interest_value = value * (self.loan.interest_rate / 100)
+        self.total_value = value + interest_value
+
         self.save()
 
     def save(self, *args, **kwargs):
