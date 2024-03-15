@@ -56,3 +56,18 @@ class LoanViewSet(viewsets.ModelViewSet):
             return Response({"detail": "success"}, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=["post"])
+    def cancel_payments(self, request, pk=None):
+        loan = self.get_object()
+
+        if not loan:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            with transaction.atomic():
+                loan.payments.all().delete()
+            return Response({"detail": "success"}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            print(e)
+            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
