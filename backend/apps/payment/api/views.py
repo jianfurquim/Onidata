@@ -13,6 +13,16 @@ class PaymentViewSet(viewsets.ModelViewSet):
     serializer_class = PaymentSerializer
     permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        user_id = self.request.query_params.get("user_id")
+        if user_id:
+            try:
+                return Payment.objects.filter(loan__user__id=user_id)
+            except Payment.DoesNotExist:
+                return Payment.objects.none()
+        else:
+            return Payment.objects.none()
+
     @action(detail=True, methods=["post"])
     def make_payment(self, request, pk=None):
         payment = self.get_object()
