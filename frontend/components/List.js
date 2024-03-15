@@ -9,8 +9,9 @@ const List = ({ apiUrl, headers }) => {
         const fetchItens = async () => {
             try {
                 const token = localStorage.getItem('token');
+                const userId = localStorage.getItem('user_id');
                 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-                axios.get(apiUrl)
+                axios.get(`${apiUrl}?user_id=${userId}`)
                 .then(response => {
                     setItens(response.data);
                 })

@@ -5,7 +5,6 @@ import axios from 'axios';
 
 const LoanForm = () => {
     const [formData, setFormData] = useState({
-        user: 1,
         client: '',
         bank: '',
         value: '',
@@ -28,8 +27,10 @@ const LoanForm = () => {
         event.preventDefault();
         try {
             const token = localStorage.getItem('token');
+            const userId = localStorage.getItem('user_id');
+            const formDataWithUserId = { ...formData, user: userId };
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            await axios.post(apiUrl, formData);
+            await axios.post(apiUrl, formDataWithUserId);
 
             router.push('/loan/list');
         } catch (error) {

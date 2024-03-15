@@ -17,8 +17,10 @@ const LoginPage = () => {
       const response = await axios.post(tokenUrl, { username, password });
       if (response.data.access && response.data.access !== '') {
         const token = response.data.access;
+        const user_id = response.data.user_id;
 
         localStorage.setItem('token', token);
+        localStorage.setItem('user_id', user_id);
         router.push('/dashboard');
       } else {
         setError('Unable to obtain authentication token.');
