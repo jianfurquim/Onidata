@@ -26,11 +26,9 @@ const LoginPage = () => {
         router.push('/loan/list');
       } else {
         setError('Unable to obtain authentication token.');
-        toast.error('Unable to obtain authentication token.');
       }
     } catch (error) {
       setError('Failed to login. Please verify your credentials.');
-      toast.error('Failed to login. Please verify your credentials.');
     }
   };
 
