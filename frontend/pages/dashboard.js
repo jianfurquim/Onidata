@@ -5,7 +5,7 @@ const DashboardPage = () => {
     const router = useRouter();
 
     useEffect(() => {
-        router.push('/loans');
+        router.push('/loan/list');
     }, []);
 
     return null;
