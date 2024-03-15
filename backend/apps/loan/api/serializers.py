@@ -7,6 +7,8 @@ class LoanSerializer(serializers.ModelSerializer):
         model = Loan
         fields = [
             "pk",
+            "user",
+            "slug",
             "value",
             "amount_of_payments",
             "interest_rate",

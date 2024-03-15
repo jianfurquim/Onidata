@@ -18,9 +18,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import TokenRefreshView
 
-from apps.user.api.views import UserViewSet
+from apps.user.api.views import UserViewSet, CustomTokenObtainPairView
 from apps.loan.api.views import LoanViewSet
 from apps.payment.api.views import PaymentViewSet
 from utils.favicon import empty_favicon
@@ -33,7 +33,7 @@ router.register(r"payment", PaymentViewSet)
 urlpatterns = [
     path("favicon.ico", empty_favicon),
     path("api/", include(router.urls)),
-    path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("token/", CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("admin/", admin.site.urls),
 ]
