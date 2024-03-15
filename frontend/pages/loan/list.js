@@ -14,9 +14,11 @@ const LoansListPage = () => {
         { label: 'Installments', field: 'amount_of_payments', type: '' },
         { label: 'Interest Rate', field: 'interest_rate', type: 'percentage' },
         { label: 'Date', field: 'request_date', type: 'date' },
-        { label: 'Delete', field: 'delete', type: 'button' },
     ];
 
+    const buttons = [
+        { label: 'Delete', type: 'delete' },
+    ]
 
     const router = useRouter();
 
@@ -45,7 +47,7 @@ const LoansListPage = () => {
                         </div>
                     </div>
                     <div>
-                        <List apiUrl={'http://localhost:8000/api/loan/'} headers={headers}/>
+                        <List apiUrl={'http://localhost:8000/api/loan/'} headers={headers} buttons={buttons} />
                     </div>
                 </div>
             </main>

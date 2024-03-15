@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
-const List = ({ apiUrl, headers }) => {
+const List = ({ apiUrl, headers, buttons }) => {
     const [items, setItems] = useState([]);
 
     const fetchItems = async () => {
@@ -68,6 +68,7 @@ const List = ({ apiUrl, headers }) => {
                                 {header.label}
                             </th>
                         ))}
+                        {buttons.length > 0 && <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>}
                     </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -75,18 +76,19 @@ const List = ({ apiUrl, headers }) => {
                         <tr key={index}>
                             {headers.map((header, index) => (
                                 <td key={index} className="px-6 py-4 whitespace-nowrap">
-                                {header.field !== 'delete' ? (
-                                        <div className="text-sm text-gray-500">{formatValue(item[header.field], header.type)}</div>
-                                    ) : (
-                                        <div>
-                                            <button onClick={() => handleDelete(item.pk)} className="text-red-600 px-4 py-2 border border-red-600 rounded-md hover:bg-red-600 hover:text-white transition-colors duration-300">
-                                                Delete
-                                            </button>
-                                            <ToastContainer />
-                                        </div>
-                                    )}
+                                    <div className="text-sm text-gray-500">{formatValue(item[header.field], header.type)}</div>
                                 </td>
                             ))}
+                            <td key={headers.length + 1} className="px-6 py-4 whitespace-nowrap">
+                                {buttons.map((button, index) => (
+                                    <div key={`button_${index}`}>
+                                        <button onClick={() => handleDelete(item.pk)} className="text-red-600 px-4 py-2 border border-red-600 rounded-md hover:bg-red-600 hover:text-white transition-colors duration-300">
+                                            {button.label}
+                                        </button>
+                                        <ToastContainer />
+                                    </div>
+                                ))}
+                            </td>
                         </tr>
                     ))}
                 </tbody>
