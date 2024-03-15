@@ -35,11 +35,16 @@ class LoanViewSet(viewsets.ModelViewSet):
 
         try:
             with transaction.atomic():
-                for i in range(1, loan.amount_of_payments + 1):
-                    due_date = loan.request_date + relativedelta(months=i)
-                    value = loan.value / loan.amount_of_payments
-                    interest_value = value * (loan.interest_rate / 100)
-                    total_value = value + interest_value
+                remaining_value = loan.value
+                interest_rate_decimal = round(loan.interest_rate / 100, 3)
+
+                for i in range(loan.amount_of_payments, 0, -1):
+                    interest_value = round(remaining_value * interest_rate_decimal, 3)
+                    total_value = round(
+                        loan.value / loan.amount_of_payments + interest_value, 3
+                    )
+                    value = round(loan.value / loan.amount_of_payments, 3)
+                    due_date = loan.request_date + relativedelta(months=i - 1)
 
                     Payment.objects.create(
                         loan=loan,
@@ -52,6 +57,7 @@ class LoanViewSet(viewsets.ModelViewSet):
                         installment_number=i,
                         is_paid=False,
                     )
+                    remaining_value -= total_value
 
             return Response({"detail": "success"}, status=status.HTTP_201_CREATED)
         except Exception as e:
