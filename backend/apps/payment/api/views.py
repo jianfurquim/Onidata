@@ -34,7 +34,24 @@ class PaymentViewSet(viewsets.ModelViewSet):
             with transaction.atomic():
                 payment.make_payment()
                 return Response(
-                    {"message": "Payment confirmed successfully"},
+                    {"message": "Paying confirmed successfully"},
+                    status=status.HTTP_200_OK,
+                )
+        except Exception as e:
+            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=["post"])
+    def cancel_make_payment(self, request, pk=None):
+        payment = self.get_object()
+
+        if not payment:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            with transaction.atomic():
+                payment.cancel_make_payment()
+                return Response(
+                    {"message": "Cancel Paying confirmed successfully"},
                     status=status.HTTP_200_OK,
                 )
         except Exception as e:
