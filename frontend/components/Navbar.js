@@ -10,7 +10,7 @@ const Navbar = () => {
                     <CustomLink href="/loan/list" className="text-white hover:text-gray-300">Loans</CustomLink>
                 </div>
                 <div>
-                    <CustomLink href="/payments" className="text-white hover:text-gray-300">Payments</CustomLink>
+                    <CustomLink href="/payment/list" className="text-white hover:text-gray-300">Payments</CustomLink>
                 </div>
             </div>
             <div>

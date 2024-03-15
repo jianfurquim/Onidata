@@ -23,7 +23,7 @@ const LoginPage = () => {
 
         localStorage.setItem('token', token);
         localStorage.setItem('user_id', user_id);
-        router.push('/dashboard');
+        router.push('/loan/list');
       } else {
         setError('Unable to obtain authentication token.');
         toast.error('Unable to obtain authentication token.');

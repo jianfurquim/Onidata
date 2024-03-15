@@ -5,22 +5,21 @@ import Navbar from '../../components/Navbar.js';
 import List from '../../components/List.js';
 import {useRouter} from "next/router";
 
-const LoansListPage = () => {
+const PaymentListPage = () => {
     const headers = [
-        { label: 'Loan ID', field: 'pk', type: '' },
+        { label: 'Loan ID', field: 'loan', type: '' },
         { label: 'Client', field: 'client', type: '' },
         { label: 'Bank', field: 'bank', type: '' },
         { label: 'Value', field: 'value', type: 'currency' },
-        { label: 'Installments', field: 'amount_of_payments', type: '' },
-        { label: 'Interest Rate', field: 'interest_rate', type: 'percentage' },
-        { label: 'Date', field: 'request_date', type: 'date' },
-        { label: 'Paid', field: 'amount_paid', type: 'currency' },
-        { label: 'Not Paid', field: 'amount_not_paid', type: 'currency' },
+        { label: 'Interest Value', field: 'interest_value', type: 'currency' },
+        { label: 'Total Value', field: 'total_value', type: 'currency' },
+        { label: 'Created', field: 'date', type: 'date' },
+        { label: 'Due Date', field: 'due_date', type: 'date' },
+        { label: 'Paid', field: 'effective_date', type: 'date' },
     ];
 
     const buttons = [
-        { label: 'Delete', type: 'delete' },
-        { label: 'Generate Payments', type: 'generate_payments' },
+        { label: 'Make Payment', type: 'make_payment' },
     ]
 
     const router = useRouter();
@@ -42,15 +41,8 @@ const LoansListPage = () => {
             <Navbar onLogout={handleLogout} />
             <main className="content">
                 <div>
-                    <div className="flex justify-end mb-4 mr-4 mt-4 md-4">
-                        <div>
-                            <CustomLink href="/loan/create">
-                                Add Loan
-                            </CustomLink>
-                        </div>
-                    </div>
                     <div>
-                        <List apiUrl={'http://localhost:8000/api/loan/'} headers={headers} buttons={buttons} />
+                        <List apiUrl={'http://localhost:8000/api/payment/'} headers={headers} buttons={buttons} />
                     </div>
                 </div>
             </main>
@@ -58,4 +50,4 @@ const LoansListPage = () => {
     );
 };
 
-export default LoansListPage;
+export default PaymentListPage;
