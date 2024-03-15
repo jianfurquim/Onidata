@@ -1,30 +1,45 @@
 import "../app/globals.css"
 import React, { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 const List = ({ apiUrl, headers }) => {
-    const [items, setItens] = useState([]);
+    const [items, setItems] = useState([]);
+
+    const fetchItems = async () => {
+        try {
+          const token = localStorage.getItem('token');
+          const userId = localStorage.getItem('user_id');
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+          const response = await axios.get(`${apiUrl}?user_id=${userId}`);
+          setItems(response.data);
+        } catch (error) {
+            toast.error('Erro ao buscar itens.');
+        }
+      };
+    
+    const handleDelete = async (itemId) => {
+        try {
+            const token = localStorage.getItem('token');
+            const userId = localStorage.getItem('user_id');
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            await axios.delete(`${apiUrl}${itemId}/?user_id=${userId}`);
+            setItems(prevItems => prevItems.filter(item => item.id !== itemId));
+        } catch (error) {
+            toast.error('Erro ao excluir item.');
+        }
+    };
 
     useEffect(() => {
-        const fetchItens = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const userId = localStorage.getItem('user_id');
-                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-                axios.get(`${apiUrl}?user_id=${userId}`)
-                .then(response => {
-                    setItens(response.data);
-                })
-                .catch(error => {
-                    console.error('Erro ao buscar empréstimos:', error);
-                });
-            } catch (error) {
-                console.error('Erro ao buscar empréstimos:', error);
-            }
-        };
-
-        fetchItens();
+        fetchItems();
     }, []);
+
+    useEffect(() => {
+        if (items.length === 0) return;
+        fetchItems();
+    }, [items]);
+    
 
     const formatDate = (date) => {
         const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
@@ -60,7 +75,16 @@ const List = ({ apiUrl, headers }) => {
                         <tr key={index}>
                             {headers.map((header, index) => (
                                 <td key={index} className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm text-gray-500">{formatValue(item[header.field], header.type)}</div>
+                                {header.field !== 'delete' ? (
+                                        <div className="text-sm text-gray-500">{formatValue(item[header.field], header.type)}</div>
+                                    ) : (
+                                        <div>
+                                            <button onClick={() => handleDelete(item.pk)} className="text-red-600 px-4 py-2 border border-red-600 rounded-md hover:bg-red-600 hover:text-white transition-colors duration-300">
+                                                Delete
+                                            </button>
+                                            <ToastContainer />
+                                        </div>
+                                    )}
                                 </td>
                             ))}
                         </tr>

@@ -1,6 +1,8 @@
 import "../../app/globals.css"
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 const LoanForm = () => {
@@ -31,10 +33,10 @@ const LoanForm = () => {
             const formDataWithUserId = { ...formData, user: userId };
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             await axios.post(apiUrl, formDataWithUserId);
-
+            toast.success('Add Loan with success.');
             router.push('/loan/list');
         } catch (error) {
-            console.error('Error on Add Loan:', error);
+            toast.error('Error on Add Loan');
         }
     };
     
@@ -96,9 +98,12 @@ const LoanForm = () => {
                     className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
                 />
             </div>
-            <button type="submit" className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600">
-                Add Loan
-            </button>
+            <div>
+                <button type="submit" className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600">
+                    Add Loan
+                </button>
+                <ToastContainer />
+            </div>
         </form>
     );
 };

@@ -1,6 +1,8 @@
 import "../app/globals.css"
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 const LoginPage = () => {
@@ -24,9 +26,11 @@ const LoginPage = () => {
         router.push('/dashboard');
       } else {
         setError('Unable to obtain authentication token.');
+        toast.error('Unable to obtain authentication token.');
       }
     } catch (error) {
       setError('Failed to login. Please verify your credentials.');
+      toast.error('Failed to login. Please verify your credentials.');
     }
   };
 
@@ -54,6 +58,7 @@ const LoginPage = () => {
             <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Sign in
             </button>
+            <ToastContainer />
           </div>
         </form>
       </div>

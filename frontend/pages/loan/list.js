@@ -14,6 +14,7 @@ const LoansListPage = () => {
         { label: 'Installments', field: 'amount_of_payments', type: '' },
         { label: 'Interest Rate', field: 'interest_rate', type: 'percentage' },
         { label: 'Date', field: 'request_date', type: 'date' },
+        { label: 'Delete', field: 'delete', type: 'button' },
     ];
 
 
