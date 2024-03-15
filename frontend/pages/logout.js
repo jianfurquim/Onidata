@@ -10,7 +10,11 @@ const LogoutPage = () => {
     router.push('/login');
   }, []);
 
-  return <div>Loading logout...</div>;
+  return (
+    <div className="flex justify-center items-center h-screen">
+        <div className="text-xl font-bold text-gray-700">Loading logout...</div>
+    </div>
+  );
 };
 
 export default LogoutPage;

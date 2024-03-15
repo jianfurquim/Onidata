@@ -9,11 +9,12 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const tokenUrl = `http://localhost:8000/token/`;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8001/token/', { username, password });
-      console.log(response);
+      const response = await axios.post(tokenUrl, { username, password });
       if (response.data.access && response.data.access !== '') {
         const token = response.data.access;
 
@@ -23,7 +24,7 @@ const LoginPage = () => {
         setError('Unable to obtain authentication token.');
       }
     } catch (error) {
-      setError('Failed to log in. Please verify your credentials.');
+      setError('Failed to login. Please verify your credentials.');
     }
   };
 
