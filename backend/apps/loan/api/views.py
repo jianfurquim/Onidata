@@ -1,4 +1,5 @@
 from dateutil.relativedelta import relativedelta
+from django.contrib.auth.models import User
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -14,6 +15,16 @@ class LoanViewSet(viewsets.ModelViewSet):
     queryset = Loan.objects.all()
     serializer_class = LoanSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user_id = self.request.query_params.get("user_id")
+        if user_id:
+            try:
+                return Loan.objects.filter(user__id=user_id)
+            except User.DoesNotExist:
+                return Loan.objects.none()
+        else:
+            return Loan.objects.none()
 
     @action(detail=True, methods=["post"])
     def generate_payments(self, request, pk=None):
@@ -42,6 +53,6 @@ class LoanViewSet(viewsets.ModelViewSet):
                         is_paid=False,
                     )
 
-            return Response({"response": "success"}, status=status.HTTP_201_CREATED)
+            return Response({"detail": "success"}, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
