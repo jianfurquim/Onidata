@@ -7,7 +7,7 @@ const Navbar = () => {
         <nav className="bg-gray-200 p-4 flex justify-between items-center">
             <div className="flex items-start">
                 <div className="mr-4">
-                    <CustomLink href="/loans" className="text-white hover:text-gray-300">Loans</CustomLink>
+                    <CustomLink href="/loan/list" className="text-white hover:text-gray-300">Loans</CustomLink>
                 </div>
                 <div>
                     <CustomLink href="/payments" className="text-white hover:text-gray-300">Payments</CustomLink>
