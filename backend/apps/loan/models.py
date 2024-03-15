@@ -1,4 +1,7 @@
+from decimal import Decimal
+
 from django.db import models
+from django.db.models import Sum
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 
@@ -23,6 +26,38 @@ class Loan(models.Model):
 
     def __str__(self):
         return f"Loan {self.slug}"
+
+    @property
+    def payment_generated(self):
+        return self.payments.exists()
+
+    @property
+    def amount_paid(self):
+        if self.payment_generated:
+            return self.payments.filter(
+                is_paid=True, effective_date__isnull=False
+            ).only("total_value", "effective_date").aggregate(
+                total_value=Sum("total_value")
+            )[
+                "total_value"
+            ] or Decimal(
+                0.0
+            )
+        return Decimal(0.0)
+
+    @property
+    def amount_not_paid(self):
+        if self.payment_generated:
+            return self.payments.filter(
+                is_paid=False, effective_date__isnull=True
+            ).only("total_value", "effective_date").aggregate(
+                total_value=Sum("total_value")
+            )[
+                "total_value"
+            ] or Decimal(
+                0.0
+            )
+        return Decimal(0.0)
 
     def save(self, *args, **kwargs):
         self.slug = self.slug or hash_generator()

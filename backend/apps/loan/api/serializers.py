@@ -16,4 +16,8 @@ class LoanSerializer(serializers.ModelSerializer):
             "request_date",
             "client",
             "bank",
+            "payment_generated",
+            "amount_paid",
+            "amount_not_paid",
+            "amount_not_paid",
         ]
