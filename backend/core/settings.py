@@ -13,8 +13,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from datetime import timedelta
 from pathlib import Path
-from dj_database_url import parse as db_url
-from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY = 'django-insecure-87_!-ncz20l9dc3feyonp0r2nt5yr(qj336u#auno6xoiktpst'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG", cast=bool, default=False)
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -98,11 +96,14 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 # Custom DB
 DATABASES = {
-    "default": config(
-        "DATABASE_URL",
-        default="sqlite:///" + os.path.join(BASE_DIR, "db.sqlite3"),
-        cast=db_url,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
+    }
 }
 
 
@@ -152,5 +153,5 @@ SIMPLE_JWT = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    config("FRONTEND_URL"),
+    "http://localhost:3000",
 ]

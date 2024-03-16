@@ -1,4 +1,4 @@
-.PHONY: help build run kill
+.PHONY: help build run kill create_venv
 
 # Default command, shows quick help
 help:
@@ -7,7 +7,7 @@ help:
 	@echo "Use 'make kill' to stop and remove all Docker containers, networks, and volumes."
 
 # Build Docker containers
-build:
+build: create_venv
 	@docker-compose build
 
 # Run Docker containers
@@ -17,3 +17,8 @@ run:
 # Stop and remove all Docker containers, networks, and volumes
 kill:
 	@docker-compose down -v --remove-orphans
+
+# Create virtual environment if it does not exist
+create_venv:
+	@echo "Checking if virtual environment exists..."
+	@test -d backend/env || (echo "Creating virtual environment..." && python3.10 -m venv backend/env)
