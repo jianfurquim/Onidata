@@ -1,0 +1,11 @@
+DEBUG=True
+SECRET_KEY='django-insecure-87_!-ncz20l9dc3feyonp0r2nt5yr(qj336u#auno6xoiktpst'
+
+DB_HOST=db
+DB_PORT=5432
+DB_NAME=oni_data
+DB_USER=postgres
+DB_PASSWORD=postgres
+
+# Frontend environment variables
+FRONTEND_URL=http://localhost:3000
