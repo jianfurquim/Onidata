@@ -147,8 +147,8 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-JWT_AUTH = {
-    "JWT_EXPIRATION_DELTA": timedelta(hours=1),
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
 }
 
 CORS_ALLOWED_ORIGINS = [

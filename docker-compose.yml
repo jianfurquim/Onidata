@@ -1,7 +1,39 @@
 version: '3'
 
 services:
-  web:
-    build: .
+  backend:
+    build:
+      context: ./backend
     ports:
       - "8000:8000"
+    networks:
+      - mynetwork
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/oni_data
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - mynetwork
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: oni_data
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+
+volumes:
+  db_data:
