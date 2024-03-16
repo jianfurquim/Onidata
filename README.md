@@ -1,6 +1,6 @@
 # Desafio Onidata
 
-Este é o projeto, uma aplicação web construída com Django 5.0.3 no backend e Next.js 14.1.3 no frontend.
+Este é o projeto é um desafio proposto pela empresa Matera, uma aplicação web construída com Django 5.0.3 no backend e Next.js 14.1.3 no frontend. Os requisitos do desafio encontram-se em https://github.com/onidata/vagas. Vale ressaltar que a solução deverá ser entregue em 5 dias.
 
 Para executar os sistemas os requisitos são:
 
